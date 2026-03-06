@@ -24,13 +24,20 @@ function Hero() {
     )
     .slice(0,5)
 
-  const handleSearch = (e) => {
+  /* LORSQUE ON TAPE */
 
-    const value = e.target.value
-    setSearch(value)
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+  }
 
-    if (value.length > 2) {
-      navigate(`/produits?search=${value}`)
+  /* LORSQUE ON APPUIE SUR ENTER */
+
+  const handleKeyDown = (e) => {
+
+    if (e.key === "Enter" && search.trim() !== "") {
+
+      navigate(`/produits?search=${search}`)
+
     }
 
   }
@@ -62,8 +69,7 @@ pour administrations et entreprises au Gabon.
 
 </motion.p>
 
-
-{/* RECHERCHE INTELLIGENTE */}
+{/* BARRE DE RECHERCHE */}
 
 <div className="relative w-full max-w-xl mx-auto">
 
@@ -71,9 +77,12 @@ pour administrations et entreprises au Gabon.
 type="text"
 placeholder="Rechercher un produit..."
 value={search}
-onChange={handleSearch}
+onChange={handleChange}
+onKeyDown={handleKeyDown}
 className="w-full px-6 py-4 rounded-xl text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
 />
+
+{/* SUGGESTIONS */}
 
 {search.length > 1 && (
 

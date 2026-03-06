@@ -14,68 +14,80 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("")
 
   return (
-    
-
-    
 
     <BrowserRouter>
 
+      {/* STRUCTURE PRINCIPALE POUR EVITER L'ESPACE BLANC */}
+      <div className="flex flex-col min-h-screen">
 
-    <>
-      <Helmet>
-        <title>SBI Gabon | Matériel Informatique & Bureautique</title>
-        <meta name="description" content="SBI Gabon fournit du matériel informatique, bureautique et des solutions technologiques aux entreprises et administrations de Libreville et tout le Gabon." />
-        <meta name="keywords" content="SBI Gabon, informatique Gabon, matériel bureautique, solutions IT, Libreville" />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://sbigabon.com" />
-      </Helmet>
+        <Helmet>
+          <title>SBI Gabon | Matériel Informatique & Bureautique</title>
 
-      {/* ton site ici */}
-    </>
+          <meta
+            name="description"
+            content="SBI Gabon fournit du matériel informatique, bureautique et des solutions technologiques aux entreprises et administrations de Libreville et tout le Gabon."
+          />
 
-      {/* NAVBAR */}
-      <Navbar />
+          <meta
+            name="keywords"
+            content="SBI Gabon, informatique Gabon, matériel bureautique, solutions IT, Libreville"
+          />
 
-      {/* ROUTES */}
-      <Routes>
+          <meta name="robots" content="index, follow" />
 
-        {/* ACCUEIL */}
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero onSearch={setSearchTerm} />
-              <Products searchTerm={searchTerm} />
-              <Services />
-              <Contact />
-            </>
-          }
-        />
+          <link rel="canonical" href="https://sbigabon.com" />
+        </Helmet>
 
-        {/* PRODUITS */}
-        <Route
-          path="/produits"
-          element={<Products searchTerm={searchTerm} />}
-        />
+        {/* NAVBAR */}
+        <Navbar />
 
-        {/* SERVICES */}
-        <Route
-          path="/services"
-          element={<Services />}
-        />
+        {/* CONTENU PRINCIPAL */}
+        <main className="flex-grow">
 
-        {/* CONTACT */}
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
+          <Routes>
 
-      </Routes>
+            {/* ACCUEIL */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <Hero onSearch={setSearchTerm} />
+                  <Products searchTerm={searchTerm} />
+                  <Services />
+                  <Contact />
+                </>
+              }
+            />
 
-      {/* FOOTER */}
-      <Footer />
+            {/* PRODUITS */}
+            <Route
+              path="/produits"
+              element={<Products searchTerm={searchTerm} />}
+            />
+
+            {/* SERVICES */}
+            <Route
+              path="/services"
+              element={<Services />}
+            />
+
+            {/* CONTACT */}
+            <Route
+              path="/contact"
+              element={<Contact />}
+            />
+
+          </Routes>
+
+        </main>
+
+        {/* FOOTER */}
+        <Footer />
+
+      </div>
 
     </BrowserRouter>
+
   )
 }
 

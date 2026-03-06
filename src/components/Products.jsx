@@ -147,11 +147,11 @@ const filteredProducts = useMemo(() => {
 
   return (
 
-<div className="flex gap-6 p-6 bg-gray-50">
+<div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 bg-gray-50">
 
 {/* SIDEBAR */}
 
-<div className="w-72 bg-white shadow rounded-xl p-4 h-fit">
+<div className="w-full md:w-72 bg-white shadow rounded-xl p-4 h-fit">
 
 <h2 className="font-bold text-lg mb-4">Catégories</h2>
 
@@ -281,7 +281,7 @@ className="px-3 py-2 border rounded"
 
 {/* GRID */}
 
-<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
 {currentProducts.map(product => (
 
@@ -294,7 +294,7 @@ transition={{ duration:0.4 }}
 className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden"
 >
 
-<div className="h-48 flex items-center justify-center bg-gray-100">
+<div className="h-40 md:h-48 flex items-center justify-center bg-gray-100">
 
 <img
 src={product.image}
@@ -325,7 +325,7 @@ className="max-h-full object-contain p-2"
 
 {/* PAGINATION */}
 
-<div className="flex justify-center gap-2 mt-8 flex-wrap">
+<div className="flex justify-center gap-2 mt-8 flex-wrap text-sm">
 
 {Array.from({length: totalPages}, (_,i)=>i+1).map(page => (
 

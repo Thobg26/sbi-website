@@ -86,6 +86,22 @@ function App() {
 
       </div>
 
+
+
+      <CookieConsent
+location="bottom"
+buttonText="Accepter"
+declineButtonText="Refuser"
+enableDeclineButton
+cookieName="sbiCookieConsent"
+style={{ background: "#1f2937" }}
+buttonStyle={{ color: "#fff", background: "#2563eb", fontSize: "14px" }}
+declineButtonStyle={{ color: "#fff", background: "#6b7280", fontSize: "14px" }}
+expires={365}
+>
+Ce site utilise des cookies pour améliorer votre expérience utilisateur.
+</CookieConsent>
+
     </BrowserRouter>
 
   )

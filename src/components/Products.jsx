@@ -89,52 +89,60 @@ export default function Products() {
 
   }, [])
 
+  /* suggestions automatiques */
+
+  const suggestions = useMemo(() => {
+
+    if (!searchQuery) return []
+
+    return products
+      .filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .slice(0,5)
+
+  }, [searchQuery, products])
+
   /* filtrage */
 
-const filteredProducts = useMemo(() => {
+  const filteredProducts = useMemo(() => {
 
-  let filtered = [...products]
+    let filtered = [...products]
 
-  /* recherche texte */
+    if (searchQuery) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.subcategory.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }
 
-  if (searchQuery) {
-    filtered = filtered.filter(product =>
-  product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  product.subcategory.toLowerCase().includes(searchQuery.toLowerCase())
-)
-  }
+    if (selectedSubcategory) {
+      filtered = filtered.filter(p => p.subcategory === selectedSubcategory)
+    }
+    else if (selectedCategory) {
+      filtered = filtered.filter(p => p.category === selectedCategory)
+    }
 
-  /* filtre catégorie */
+    switch (sortOption) {
 
-  if (selectedSubcategory) {
-    filtered = filtered.filter(p => p.subcategory === selectedSubcategory)
-  } 
-  else if (selectedCategory) {
-    filtered = filtered.filter(p => p.category === selectedCategory)
-  }
+      case "price-asc":
+        filtered.sort((a,b)=>a.price-b.price)
+        break
 
-  /* tri */
+      case "price-desc":
+        filtered.sort((a,b)=>b.price-a.price)
+        break
 
-  switch (sortOption) {
+      default:
+        filtered.sort((a,b)=>a.name.localeCompare(b.name))
 
-    case "price-asc":
-      filtered.sort((a,b) => a.price - b.price)
-      break
+    }
 
-    case "price-desc":
-      filtered.sort((a,b) => b.price - a.price)
-      break
+    return filtered
 
-    default:
-      filtered.sort((a,b) => a.name.localeCompare(b.name))
-
-  }
-
-  return filtered
-
-}, [products, selectedCategory, selectedSubcategory, sortOption, searchQuery])
+  }, [products, selectedCategory, selectedSubcategory, sortOption, searchQuery])
 
   /* pagination */
 
@@ -158,8 +166,6 @@ const filteredProducts = useMemo(() => {
 {productsData.map(cat => (
 
 <div key={cat.category}>
-
-{/* CATEGORY */}
 
 <div
 onClick={()=>{
@@ -185,22 +191,18 @@ ${selectedCategory === cat.category ? "bg-primary text-white" : ""}
 <span>{cat.category}</span>
 
 <motion.span
-animate={{ rotate: selectedCategory === cat.category ? 180 : 0 }}
-transition={{ duration: 0.3 }}
+animate={{ rotate:selectedCategory === cat.category ? 180:0 }}
 >
-<FaChevronDown />
+<FaChevronDown/>
 </motion.span>
 
 </div>
 
-{/* SUBCATEGORIES */}
-
 {selectedCategory === cat.category && (
 
 <motion.div
-initial={{ height:0, opacity:0 }}
-animate={{ height:"auto", opacity:1 }}
-transition={{ duration:0.3 }}
+initial={{height:0,opacity:0}}
+animate={{height:"auto",opacity:1}}
 className="ml-4 overflow-hidden"
 >
 
@@ -210,10 +212,8 @@ className="ml-4 overflow-hidden"
 key={sub.name}
 
 onClick={()=>{
-
 setSelectedSubcategory(sub.name)
 setCurrentPage(1)
-
 }}
 
 className="flex items-center gap-2 p-2 cursor-pointer rounded hover:bg-gray-100"
@@ -237,14 +237,40 @@ className="flex items-center gap-2 p-2 cursor-pointer rounded hover:bg-gray-100"
 
 </div>
 
-
 {/* PRODUCTS */}
 
 <div className="flex-1">
 
+{/* suggestions */}
+
+{searchQuery && suggestions.length > 0 && (
+
+<div className="bg-white border rounded-xl p-4 mb-6">
+
+<p className="text-sm text-gray-500 mb-2">
+Suggestions :
+</p>
+
+<div className="flex flex-wrap gap-2">
+
+{suggestions.map(item=>(
+<span
+key={item.id}
+className="px-3 py-1 bg-gray-100 rounded-full text-sm"
+>
+{item.name}
+</span>
+))}
+
+</div>
+
+</div>
+
+)}
+
 {/* SORT */}
 
-<div className="flex justify-between mb-6">
+<div className="flex flex-col sm:flex-row gap-3 justify-between mb-6">
 
 <select
 value={sortOption}
@@ -261,10 +287,8 @@ className="px-3 py-2 border rounded"
 <select
 value={productsPerPage}
 onChange={(e)=>{
-
 setProductsPerPage(Number(e.target.value))
 setCurrentPage(1)
-
 }}
 className="px-3 py-2 border rounded"
 >
@@ -278,24 +302,20 @@ className="px-3 py-2 border rounded"
 
 </div>
 
-
 {/* GRID */}
 
-<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
 {currentProducts.map(product => (
 
 <motion.div
 key={product.id}
-whileHover={{ y: -6 }}
-initial={{ opacity:0, y:20 }}
-animate={{ opacity:1, y:0 }}
-transition={{ duration:0.4 }}
+whileHover={{y:-6}}
+initial={{opacity:0,y:20}}
+animate={{opacity:1,y:0}}
 
 className="bg-white rounded-2xl border hover:shadow-xl transition overflow-hidden flex flex-col"
 >
-
-{/* IMAGE */}
 
 <div className="h-40 md:h-48 bg-gray-100 flex items-center justify-center p-4">
 
@@ -306,8 +326,6 @@ className="max-h-full object-contain"
 />
 
 </div>
-
-{/* INFO */}
 
 <div className="p-4 flex flex-col flex-grow">
 
@@ -323,15 +341,11 @@ className="max-h-full object-contain"
 {product.subcategory}
 </p>
 
-<div className="mt-auto flex items-center justify-between">
+<div className="mt-auto">
 
 <span className="text-primary font-bold text-lg">
 {product.price}
 </span>
-
-<button className="bg-primary text-white text-sm px-3 py-1.5 rounded-lg hover:bg-secondary transition">
-Voir
-</button>
 
 </div>
 
@@ -343,7 +357,6 @@ Voir
 
 </div>
 
-
 {/* PAGINATION */}
 
 <div className="flex justify-center gap-2 mt-8 flex-wrap text-sm">
@@ -354,7 +367,7 @@ Voir
 key={page}
 onClick={()=>setCurrentPage(page)}
 className={`px-4 py-2 border rounded
-${currentPage === page ? "bg-primary text-white" : "bg-white"}
+${currentPage===page ? "bg-primary text-white":"bg-white"}
 `}
 >
 

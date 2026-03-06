@@ -88,7 +88,7 @@ transition={{ duration: 0.7 }}
 >
 
 <h2 className="text-4xl font-bold text-center text-primary mb-16 tracking-wide">
-NOS SERVICES
+SERVICES SBI
 </h2>
 
 <div className="max-w-5xl mx-auto px-6 space-y-6">

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react"
 import { motion } from "framer-motion"
+import { useSearchParams } from "react-router-dom"
 import productsData from "../data/products"
 
 import {
@@ -14,6 +15,9 @@ import {
 } from "react-icons/fa"
 
 export default function Products() {
+
+  const [searchParams] = useSearchParams()
+  const searchQuery = searchParams.get("search") || ""
 
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSubcategory, setSelectedSubcategory] = useState(null)
@@ -87,35 +91,50 @@ export default function Products() {
 
   /* filtrage */
 
-  const filteredProducts = useMemo(() => {
+const filteredProducts = useMemo(() => {
 
-    let filtered = [...products]
+  let filtered = [...products]
 
-    if (selectedSubcategory) {
-      filtered = filtered.filter(p => p.subcategory === selectedSubcategory)
-    } 
-    else if (selectedCategory) {
-      filtered = filtered.filter(p => p.category === selectedCategory)
-    }
+  /* recherche texte */
 
-    switch (sortOption) {
+  if (searchQuery) {
+    filtered = filtered.filter(product =>
+  product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  product.subcategory.toLowerCase().includes(searchQuery.toLowerCase())
+)
+  }
 
-      case "price-asc":
-        filtered.sort((a,b) => a.price - b.price)
-        break
+  /* filtre catégorie */
 
-      case "price-desc":
-        filtered.sort((a,b) => b.price - a.price)
-        break
+  if (selectedSubcategory) {
+    filtered = filtered.filter(p => p.subcategory === selectedSubcategory)
+  } 
+  else if (selectedCategory) {
+    filtered = filtered.filter(p => p.category === selectedCategory)
+  }
 
-      default:
-        filtered.sort((a,b) => a.name.localeCompare(b.name))
+  /* tri */
 
-    }
+  switch (sortOption) {
 
-    return filtered
+    case "price-asc":
+      filtered.sort((a,b) => a.price - b.price)
+      break
 
-  }, [products, selectedCategory, selectedSubcategory, sortOption])
+    case "price-desc":
+      filtered.sort((a,b) => b.price - a.price)
+      break
+
+    default:
+      filtered.sort((a,b) => a.name.localeCompare(b.name))
+
+  }
+
+  return filtered
+
+}, [products, selectedCategory, selectedSubcategory, sortOption, searchQuery])
 
   /* pagination */
 

@@ -1,8 +1,45 @@
 import { Phone, Mail, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
+import { useRef, useState } from "react"
+import emailjs from "@emailjs/browser"
 
 function Contact() {
-  return (
+
+const form = useRef()
+
+const [sending, setSending] = useState(false)
+const [success, setSuccess] = useState(false)
+const [error, setError] = useState(false)
+
+const sendEmail = (e) => {
+e.preventDefault()
+
+setSending(true)
+setSuccess(false)
+setError(false)
+
+emailjs.sendForm(
+"service_SBI",
+"template_SBI",
+form.current,
+"kikJV-FcFH9LkUIcE"
+)
+.then(() => {
+
+setSending(false)
+setSuccess(true)
+form.current.reset()
+
+},
+() => {
+
+setSending(false)
+setError(true)
+
+})
+}
+
+return (
 
 <motion.section
 className="bg-gray-50 py-24"
@@ -40,7 +77,7 @@ viewport={{ once: true }}
 >
 
 <div className="bg-primary text-white p-3 rounded-lg">
-<Phone size={20} />
+<Phone size={20}/>
 </div>
 
 <div>
@@ -59,7 +96,7 @@ viewport={{ once: true }}
 >
 
 <div className="bg-primary text-white p-3 rounded-lg">
-<Mail size={20} />
+<Mail size={20}/>
 </div>
 
 <div>
@@ -80,7 +117,7 @@ viewport={{ once: true }}
 >
 
 <div className="bg-primary text-white p-3 rounded-lg">
-<MapPin size={20} />
+<MapPin size={20}/>
 </div>
 
 <div>
@@ -99,6 +136,8 @@ B.P. 7511 Libreville, Gabon
 {/* FORMULAIRE */}
 
 <motion.form
+ref={form}
+onSubmit={sendEmail}
 className="bg-white p-10 rounded-2xl shadow-lg space-y-6"
 initial={{ opacity: 0, x: 40 }}
 whileInView={{ opacity: 1, x: 0 }}
@@ -108,28 +147,59 @@ viewport={{ once: true }}
 
 <input
 type="text"
+name="name"
 placeholder="Nom complet"
+required
 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
 />
 
 <input
 type="email"
+name="email"
 placeholder="Adresse email"
+required
 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
 />
 
 <textarea
+name="message"
 placeholder="Votre message"
 rows="5"
+required
 className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
 ></textarea>
 
 <button
 type="submit"
-className="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-secondary transition"
+disabled={sending}
+className="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-secondary transition disabled:opacity-70"
 >
-Envoyer le message
+
+{sending ? "Envoi en cours..." : "Envoyer le message"}
+
 </button>
+
+{/* MESSAGE DE CONFIRMATION */}
+
+{success && (
+
+<div className="bg-green-100 border border-green-300 text-green-800 px-6 py-4 rounded-lg text-center font-medium">
+✅ Merci pour votre message.  
+Notre équipe vous répondra dans les plus brefs délais.
+</div>
+
+)}
+
+{/* MESSAGE ERREUR */}
+
+{error && (
+
+<div className="bg-red-100 border border-red-300 text-red-700 px-6 py-4 rounded-lg text-center font-medium">
+Une erreur est survenue lors de l'envoi.  
+Veuillez réessayer ultérieurement.
+</div>
+
+)}
 
 </motion.form>
 
@@ -139,7 +209,7 @@ Envoyer le message
 
 </motion.section>
 
-  )
+)
 }
 
 export default Contact

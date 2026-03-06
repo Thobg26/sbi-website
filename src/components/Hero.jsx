@@ -1,11 +1,28 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import productsData from "../data/products"
 
 function Hero() {
 
   const [search, setSearch] = useState("")
   const navigate = useNavigate()
+
+  /* LISTE DE TOUS LES PRODUITS */
+
+  const allProducts = productsData.flatMap(cat =>
+    cat.subcategories.flatMap(sub =>
+      sub.items.map(p => p.name)
+    )
+  )
+
+  /* SUGGESTIONS */
+
+  const suggestions = allProducts
+    .filter(p =>
+      p.toLowerCase().includes(search.toLowerCase())
+    )
+    .slice(0,5)
 
   const handleSearch = (e) => {
 
@@ -46,18 +63,51 @@ pour administrations et entreprises au Gabon.
 </motion.p>
 
 
-{/* BARRE DE RECHERCHE */}
+{/* RECHERCHE INTELLIGENTE */}
 
-<motion.input
-initial={{ opacity: 0, y: 20 }}
-animate={{ opacity: 1, y: 0 }}
-transition={{ delay: 0.8 }}
+<div className="relative w-full max-w-xl mx-auto">
+
+<input
 type="text"
 placeholder="Rechercher un produit..."
 value={search}
 onChange={handleSearch}
-className="w-full max-w-xl px-4 py-3 md:px-6 md:py-4 rounded-xl text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
+className="w-full px-6 py-4 rounded-xl text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
 />
+
+{search.length > 1 && (
+
+<div className="absolute left-0 right-0 bg-white text-black mt-2 rounded-lg shadow-lg overflow-hidden">
+
+{suggestions.length > 0 ? (
+
+suggestions.map((item,i)=>(
+
+<div
+key={i}
+onClick={()=>navigate(`/produits?search=${item}`)}
+className="px-4 py-3 hover:bg-gray-100 cursor-pointer text-left"
+>
+
+{item}
+
+</div>
+
+))
+
+) : (
+
+<div className="px-4 py-3 text-gray-500">
+Aucun produit trouvé
+</div>
+
+)}
+
+</div>
+
+)}
+
+</div>
 
 </section>
 

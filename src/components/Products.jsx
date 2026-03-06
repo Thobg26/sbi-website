@@ -287,32 +287,53 @@ className="px-3 py-2 border rounded"
 
 <motion.div
 key={product.id}
-whileHover={{ scale:1.05 }}
+whileHover={{ y: -6 }}
 initial={{ opacity:0, y:20 }}
 animate={{ opacity:1, y:0 }}
 transition={{ duration:0.4 }}
-className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden"
+
+className="bg-white rounded-2xl border hover:shadow-xl transition overflow-hidden flex flex-col"
 >
 
-<div className="h-40 md:h-48 flex items-center justify-center bg-gray-100">
+{/* IMAGE */}
+
+<div className="h-40 md:h-48 bg-gray-100 flex items-center justify-center p-4">
 
 <img
 src={product.image}
 alt={product.name}
-className="max-h-full object-contain p-2"
+className="max-h-full object-contain"
 />
 
 </div>
 
-<div className="p-4">
+{/* INFO */}
 
-<h3 className="font-semibold">{product.name}</h3>
+<div className="p-4 flex flex-col flex-grow">
 
-<p className="text-gray-500">{product.subcategory}</p>
+<span className="text-xs text-gray-400 mb-1">
+{product.category}
+</span>
 
-<p className="font-bold text-primary text-lg">
-{product.price}
+<h3 className="font-semibold text-sm md:text-base line-clamp-2 mb-2">
+{product.name}
+</h3>
+
+<p className="text-xs text-gray-500 mb-3">
+{product.subcategory}
 </p>
+
+<div className="mt-auto flex items-center justify-between">
+
+<span className="text-primary font-bold text-lg">
+{product.price}
+</span>
+
+<button className="bg-primary text-white text-sm px-3 py-1.5 rounded-lg hover:bg-secondary transition">
+Voir
+</button>
+
+</div>
 
 </div>
 

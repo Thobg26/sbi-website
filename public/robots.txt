@@ -1,0 +1,12 @@
+# robots.txt pour SBI Gabon
+
+User-agent: *
+Allow: /
+
+# Sitemap pour Google
+Sitemap: https://sbigabon.com/sitemap.xml
+
+# Bloquer les dossiers inutiles
+Disallow: /node_modules/
+Disallow: /build/
+Disallow: /scripts/

@@ -10,6 +10,10 @@ import Services from "./components/Services"
 import Contact from "./components/Contact"
 import Footer from "./components/Footer"
 
+import PolitiqueCookies from "./pages/PolitiqueCookies"
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite"
+import MentionsLegales from "./pages/MentionsLegales"
+
 function App() {
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -18,10 +22,8 @@ function App() {
 
     <BrowserRouter>
 
-      {/* STRUCTURE PRINCIPALE */}
       <div className="flex flex-col min-h-screen">
 
-        {/* SEO */}
         <Helmet>
 
           <title>SBI Gabon | Matériel Informatique & Bureautique</title>
@@ -50,7 +52,7 @@ function App() {
 
           <Routes>
 
-            {/* ACCUEIL */}
+            {/* PAGE ACCUEIL */}
             <Route
               path="/"
               element={
@@ -81,6 +83,22 @@ function App() {
               element={<Contact />}
             />
 
+            {/* PAGES LEGALES */}
+            <Route
+              path="/politique-cookies"
+              element={<PolitiqueCookies />}
+            />
+
+            <Route
+              path="/politique-confidentialite"
+              element={<PolitiqueConfidentialite />}
+            />
+
+            <Route
+              path="/mentions-legales"
+              element={<MentionsLegales />}
+            />
+
           </Routes>
 
         </main>
@@ -88,23 +106,47 @@ function App() {
         {/* FOOTER */}
         <Footer />
 
-        {/* COOKIE CONSENT */}
-        <CookieConsent
-          location="bottom"
-          buttonText="Accepter"
-          declineButtonText="Refuser"
-          enableDeclineButton
-          cookieName="sbiCookieConsent"
-          style={{ background: "#1f2937" }}
-          buttonStyle={{ color: "#fff", background: "#2563eb", fontSize: "14px" }}
-          declineButtonStyle={{ color: "#fff", background: "#6b7280", fontSize: "14px" }}
-          expires={365}
-        >
-          Ce site utilise des cookies afin d'améliorer votre expérience de navigation
-          et d'analyser le trafic.
-        </CookieConsent>
-
       </div>
+
+      {/* BANNIERE COOKIES PREMIUM */}
+      <CookieConsent
+        location="bottom"
+        buttonText="Accepter les cookies"
+        declineButtonText="Refuser"
+        enableDeclineButton
+        cookieName="sbiCookieConsent"
+        expires={365}
+        style={{
+          background: "#111827",
+          padding: "18px",
+          alignItems: "center",
+          fontSize: "14px"
+        }}
+        buttonStyle={{
+          background: "#2563eb",
+          color: "#fff",
+          fontSize: "14px",
+          borderRadius: "6px",
+          padding: "8px 16px"
+        }}
+        declineButtonStyle={{
+          background: "#374151",
+          color: "#fff",
+          fontSize: "14px",
+          borderRadius: "6px",
+          padding: "8px 16px"
+        }}
+      >
+        Ce site utilise des cookies pour améliorer votre expérience et analyser le trafic.
+
+        <a
+          href="/politique-cookies"
+          style={{ marginLeft: "8px", color: "#60a5fa" }}
+        >
+          En savoir plus
+        </a>
+
+      </CookieConsent>
 
     </BrowserRouter>
 

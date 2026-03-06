@@ -96,18 +96,48 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
 
           <Link
-  to="/services?open=web"
-  className="flex items-center gap-2 mb-2 md:mb-0 hover:opacity-80 transition"
->
-  <img src={logo} alt="SBI Logo" className="h-6" />
-  <span>
-    Réalisé par <span className="text-white font-semibold">SBI</span>
-  </span>
-</Link>
+            to="/services?open=web"
+            className="flex items-center gap-2 mb-2 md:mb-0 hover:opacity-80 transition"
+          >
+            <img src={logo} alt="SBI Logo" className="h-6" />
+            <span>
+              Réalisé par <span className="text-white font-semibold">SBI</span>
+            </span>
+          </Link>
 
           <p>
             © {new Date().getFullYear()} Solution Bureautique Informatique — Tous droits réservés
           </p>
+
+        </div>
+
+        {/* LIENS LÉGAUX */}
+        <div className="max-w-7xl mx-auto px-6 pb-6 flex justify-center">
+
+          <div className="flex flex-wrap gap-6 text-sm text-gray-400">
+
+            <Link
+              to="/mentions-legales"
+              className="hover:text-white transition"
+            >
+              Mentions légales
+            </Link>
+
+            <Link
+              to="/politique-confidentialite"
+              className="hover:text-white transition"
+            >
+              Politique de confidentialité
+            </Link>
+
+            <Link
+              to="/politique-cookies"
+              className="hover:text-white transition"
+            >
+              Politique cookies
+            </Link>
+
+          </div>
 
         </div>
 

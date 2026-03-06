@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useState } from "react"
 import { Helmet } from "react-helmet"
+import CookieConsent from "react-cookie-consent"
 
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
@@ -17,10 +18,12 @@ function App() {
 
     <BrowserRouter>
 
-      {/* STRUCTURE PRINCIPALE POUR EVITER L'ESPACE BLANC */}
+      {/* STRUCTURE PRINCIPALE */}
       <div className="flex flex-col min-h-screen">
 
+        {/* SEO */}
         <Helmet>
+
           <title>SBI Gabon | Matériel Informatique & Bureautique</title>
 
           <meta
@@ -36,6 +39,7 @@ function App() {
           <meta name="robots" content="index, follow" />
 
           <link rel="canonical" href="https://sbigabon.com" />
+
         </Helmet>
 
         {/* NAVBAR */}
@@ -84,23 +88,23 @@ function App() {
         {/* FOOTER */}
         <Footer />
 
+        {/* COOKIE CONSENT */}
+        <CookieConsent
+          location="bottom"
+          buttonText="Accepter"
+          declineButtonText="Refuser"
+          enableDeclineButton
+          cookieName="sbiCookieConsent"
+          style={{ background: "#1f2937" }}
+          buttonStyle={{ color: "#fff", background: "#2563eb", fontSize: "14px" }}
+          declineButtonStyle={{ color: "#fff", background: "#6b7280", fontSize: "14px" }}
+          expires={365}
+        >
+          Ce site utilise des cookies afin d'améliorer votre expérience de navigation
+          et d'analyser le trafic.
+        </CookieConsent>
+
       </div>
-
-
-
-      <CookieConsent
-location="bottom"
-buttonText="Accepter"
-declineButtonText="Refuser"
-enableDeclineButton
-cookieName="sbiCookieConsent"
-style={{ background: "#1f2937" }}
-buttonStyle={{ color: "#fff", background: "#2563eb", fontSize: "14px" }}
-declineButtonStyle={{ color: "#fff", background: "#6b7280", fontSize: "14px" }}
-expires={365}
->
-Ce site utilise des cookies pour améliorer votre expérience utilisateur.
-</CookieConsent>
 
     </BrowserRouter>
 
